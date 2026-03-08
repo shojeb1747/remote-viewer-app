@@ -16,14 +16,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant execute permission
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
+      - name: Build APK
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: remote-viewer-debug
+          name: viewer-apk
           path: app/build/outputs/apk/debug/app-debug.apk
